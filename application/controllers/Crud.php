@@ -5,12 +5,9 @@ class Crud extends CI_Controller {
 
 	public function liste()
 	{
-		$this->output->enable_profiler(TRUE);
-
+		//$this->output->enable_profiler(TRUE);
         $requete = $this->db->query("select * from artist");
-
         $data["liste"] = $requete->result();
-
 		$this->load->view("header");
 		$this->load->view("crud/liste", $data);
 		$this->load->view("footer");
@@ -19,10 +16,7 @@ class Crud extends CI_Controller {
     public function detail($id)
 	{
         $requete = $this->db->query("select * from artist where artist_id=?", array($id));
-
         $data["artist"] = $requete->row();
-
-
 		$this->load->view("header");
 		$this->load->view("crud/detail", $data);
 		$this->load->view("footer");
@@ -32,7 +26,6 @@ class Crud extends CI_Controller {
 	{
 		// $this->form_validation->set_rules('artist_name', 'Nom de l\'artist', 'required');
 		$this->form_validation->set_rules('artist_url', 'Adresse du site', 'regex_match[/^[a-z]+$/]');
-
 		$this->form_validation->set_rules(
 			'artist_name', 
 			'Le nom de l\'artiste',
@@ -45,15 +38,10 @@ class Crud extends CI_Controller {
 		);
 
 		if ($this->input->post() && $this->form_validation->run()) {
-
-			$this->output->enable_profiler(TRUE);
-
+			//$this->output->enable_profiler(TRUE);
 			$tab = $this->input->post();
-
 			//$this->db->query("insert into artist (artist_name) values (?)", array($name));
-
 			$this->db->insert("artist", $tab);
-	
 			redirect(site_url("crud/liste"));
 		}
 		else {
@@ -66,15 +54,10 @@ class Crud extends CI_Controller {
 	public function modif($id)
 	{
 		if ($this->input->post()) {
-			
-			$this->output->enable_profiler(TRUE);
-
+			//$this->output->enable_profiler(TRUE);
 			$tab = $this->input->post();
-
-			//$this->db->query("insert into artist (artist_name) values (?)", array($name));
-
+			$this->db->query("insert into artist (artist_name) values (?)", array($name));
 			$this->db->update("artist", $tab, "artist_id=$id");
-	
 			redirect(site_url("crud/liste"));
 		}
 		else {
@@ -85,4 +68,22 @@ class Crud extends CI_Controller {
 			$this->load->view("footer");
 		}
 	}
+
+	public function supprim($id)
+	{
+		if ($this->input->post()) {
+			$tab = $this->input->post();
+			//$this->db->query("delete from artist where artist_id=?", array($id));
+			$this->db->delete('artist', array('artist_id' => $id)); 
+			redirect(site_url("crud/liste"));
+		}
+		else {
+			$data["artist"] = $this->db->query("select * from artist where artist_id=?", array($id))->row();
+
+			$this->load->view("header");
+			$this->load->view("crud/supprim", $data);
+			$this->load->view("footer");
+		}
+	}
+	
 }

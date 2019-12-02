@@ -15,6 +15,9 @@
         <a href="<?= site_url("crud/modif/") . $artist->artist_id ?>">
             modif
         </a>
+        <a href="<?= site_url("crud/supprim/") . $artist->artist_id ?>">
+            supprimer
+        </a>
     </div>
 
 <?php endforeach; ?>
