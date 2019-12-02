@@ -73,6 +73,7 @@ class Crud extends CI_Controller {
 	{
 		if ($this->input->post()) {
 			$tab = $this->input->post();
+			// Les deux requêtes suivantes sont équivalentes: la première est une requête en PHP natif, la seconde en CodeIgniter.
 			//$this->db->query("delete from artist where artist_id=?", array($id));
 			$this->db->delete('artist', array('artist_id' => $id)); 
 			redirect(site_url("crud/liste"));
