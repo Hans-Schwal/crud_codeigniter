@@ -27,4 +27,25 @@ class Produit extends CI_Controller {
 		$this->load->view("produit/page3");
 		$this->load->view("footer");
 	}
+
+		
+public function liste()	
+{
+    /* ANCIEN CODE 
+    $this->load->database();
+    $requete = $this->db->query('SELECT * FROM produits');
+    $aView["liste"] = $requete->result();
+    */
+    // NOUVEAU CODE 
+    // On charge le modèle 'produits_model'
+    $this->load->model('produits_model');
+    // On appelle la méthode liste() du modèle,
+    // qui retourne le tableau de résultat ici affecté dans la variable $aListe (un tableau) 
+    // remarque la syntaxe $this->nom_modele->methode()       
+    $aListe = $this->produits_model->liste();
+    $aView["liste"] = $aListe;
+    $this->load->view('liste', $aListe);	
+    // -- fin NOUVEAU CODE
+	}  
+
 }
